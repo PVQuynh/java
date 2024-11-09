@@ -42,7 +42,7 @@ public class a_introduction implements Runnable {
 
         a_introduction R1 = new a_introduction("Thread-1-HR-Database");
         R1.start();
-        R1.getT().join(1);
+        R1.getT().join(1); // thông báo rằng hãy chờ thread này hoàn thành rồi thread cha mới được tiếp tục chạy.
 
         a_introduction R2 = new a_introduction("Thread-2-Send-Email");
         R2.start();

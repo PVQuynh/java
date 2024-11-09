@@ -1,4 +1,5 @@
 package com.example.java.java_core.multi_thread;
+// đồng bộ trong đa luồng
 
 public class c_synchronize {
     private int balance = 1000;

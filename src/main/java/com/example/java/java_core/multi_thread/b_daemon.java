@@ -1,6 +1,6 @@
 package com.example.java.java_core.multi_thread;
-
 // daemon kết thúc theo thread thông thường
+
 public class b_daemon implements Runnable {
     @Override
     public void run() {

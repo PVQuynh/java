@@ -1,4 +1,5 @@
 package com.example.java.java_core.multi_thread;
+// quản lý các thread: queue -> thread
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
