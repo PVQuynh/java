@@ -1,0 +1,32 @@
+TimeUnit
+làm việc với đơn vị thời gian
+
+Timestamp: 2024-11-26 17:50:25.054
+một điểm thời gian cụ thể trong db
+
+
+
+SimpleDateFormat
+định dạng và phân tích đối tượng Date trong Java.
+
+Date: Tue Nov 26 17:45:23 ICT 2024
+một thời điểm cụ thể (ngày và giờ) trong lịch Gregory
+
+
+ZoneId: Asia/Ho_Chi_Minh
+một múi giờ
+
+LocalDate:  2024-11-26
+một ngày trong lịch, không có thông tin về giờ hay múi giờ
+
+LocalTime: 17:52:42.417488843
+thời gian trong một ngày, không có thông tin về ngày:
+
+LocalDateTime: 2024-11-26T17:45:23.480934277
+ngày và thời gian
+
+ZonedDateTime: 2024-11-26T17:48:04.765723854+07:00[Asia/Ho_Chi_Minh]
+thời điểm trong một múi giờ cụ thể.
+
+DateTimeFormatter
+định dạng và phân tích đối tượng LocalDate, LocalTime, và LocalDateTime

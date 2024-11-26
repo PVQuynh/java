@@ -1,0 +1,4 @@
+apache common
+guava
+gson: object <-> json
+jackson
