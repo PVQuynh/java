@@ -1,4 +1,5 @@
 apache common
-guava
+guava: cache, thread
+caffeine
 gson: object <-> json
 jackson
