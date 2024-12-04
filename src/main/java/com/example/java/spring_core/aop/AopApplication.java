@@ -1,6 +1,5 @@
-package com.example.java;
+package com.example.java.spring_core.aop;
 
-import com.example.java.spring_core.aop.ServiceAspect;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -10,11 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Slf4j
 @SpringBootApplication
 @RequiredArgsConstructor
-public class JavaApplication implements CommandLineRunner {
+public class AopApplication implements CommandLineRunner {
 	private final ServiceAspect serviceAspect;
 
 	public static void main(String[] args) {
-		SpringApplication.run(JavaApplication.class, args);
+		SpringApplication.run(AopApplication.class, args);
 	}
 
 	@Override
