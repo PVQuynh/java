@@ -189,6 +189,20 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
         </dependency>
+
+        <!-- Keycloak Spring Boot Starter: Hỗ trợ tích hợp Keycloak với Spring Boot -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-spring-boot-starter</artifactId>
+            <version>16.1.0</version>
+        </dependency>
+
+        <!-- Keycloak Admin Client: Thư viện cho phép tương tác với API quản lý Keycloak -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-admin-client</artifactId>
+            <version>16.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

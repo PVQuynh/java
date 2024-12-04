@@ -14,11 +14,12 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
+
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
+
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
@@ -32,7 +33,9 @@ public class JwtService {
                 .compact();
     }
 
-    // Tạo token mới, xóa token cũ
+    // Tạo refresh token mới => nhưng tuyết đối không làm như này vì
+    // có thể dùng refresh token này để đăng nhập nếu lộ
+    // thực tế sử dụng
     public String generateRefreshToken(UserDetails userDetails) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
@@ -49,25 +52,25 @@ public class JwtService {
         return (username.equals(userDetails.getUsername())) && !extractExpiration(token).before(new Date());
     }
 
+    // Lấy userName từ token
+    public String extractUsername(String token) {
+        Claims claims = extractClaims(token);
+        return claims.getSubject();
+    }
+
+    // Trả về thời gian hết hạn của token
+    private Date extractExpiration(String token) {
+        Claims claims = extractClaims(token);
+        return claims.getExpiration();
+    }
+
     // Hàm để lấy Claims từ token
-    public Claims extractClaims(String token) {
+    private Claims extractClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-    }
-
-    // Các phương thức cụ thể để lấy claim
-    public String extractUsername(String token) {
-        Claims claims = extractClaims(token);
-        return claims.getSubject(); // hoặc claims.get("username", String.class) nếu bạn lưu username
-    }
-
-    // Trả về thời gian hết hạn của token
-    public Date extractExpiration(String token) {
-        Claims claims = extractClaims(token);
-        return claims.getExpiration();
     }
 
     private Key getSignInKey() {

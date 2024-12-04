@@ -17,3 +17,16 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+
+# Keycloak
+keycloak:
+  realm: master
+  auth-server-url: http://localhost:7080
+  ssl-required: none
+  resource: keycloak_test
+  use-resource-role-mappings: true
+  bearer-only: true
+  cors: true
+  principal-attribute: admin
+  username: admin
+  password: admin
