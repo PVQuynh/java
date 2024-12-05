@@ -30,6 +30,7 @@ public class KeycloakConfig {
 
     @Value("${keycloak.credentials.secret}")
     private  String clientSecret;
+
     public  Keycloak getKeycloakInstance() {
         return Keycloak.getInstance(
                 serverUrl,

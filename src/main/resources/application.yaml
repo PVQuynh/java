@@ -30,3 +30,5 @@ keycloak:
   principal-attribute: admin
   username: admin
   password: admin
+  credentials:
+    secret: FzTRUSLx8jrToAYRX1MNtbdAnv712Ugy

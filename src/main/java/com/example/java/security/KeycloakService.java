@@ -87,7 +87,7 @@ public class KeycloakService {
         return null;
     }
 
-    public void createUser(RegisterRequest registerReq) {
+    public String createUser(RegisterRequest registerReq) {
         String email = registerReq.getEmail();
 
         if (!ObjectUtils.isEmpty(searchUserByEmail(email))) {
@@ -124,8 +124,10 @@ public class KeycloakService {
             RoleRepresentation roleToAdd = keycloak.realm(realm).roles().get(registerReq.getRole()).toRepresentation();
             roleMappingResource.realmLevel().add(Collections.singletonList(roleToAdd));
 
-        }
+            return  keycloak.tokenManager().getAccessTokenString();
 
+        }
+        return null;
     }
 
     public void createRole(RoleRequest roleRequest) {

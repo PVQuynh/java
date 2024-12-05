@@ -17,7 +17,7 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "TEXT")
     public String token;
 
     public String tokenType;

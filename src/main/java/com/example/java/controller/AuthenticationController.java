@@ -1,9 +1,9 @@
 package com.example.java.controller;
 
-import com.example.java.payload.AuthenticationRequest;
-import com.example.java.payload.AuthenticationResponse;
-import com.example.java.payload.ChangePasswordRequest;
-import com.example.java.payload.RegisterRequest;
+import com.example.java.model.Role;
+import com.example.java.payload.*;
+import com.example.java.security.KeycloakService;
+import com.example.java.security.RoleService;
 import com.example.java.service.AuthenticationService;
 import com.example.java.service.LogoutService;
 import com.example.java.service.UserService;
@@ -26,6 +26,15 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final UserService userService;
     private final LogoutService logoutService; // Thêm LogoutService
+    private final RoleService roleService;
+    private final KeycloakService keycloakService;
+
+    @PostMapping("/role")
+    public ResponseEntity<?> createRole(@RequestBody RoleRequest roleRequest) {
+        keycloakService.createRole(roleRequest);
+        roleService.createRole(roleRequest);
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
