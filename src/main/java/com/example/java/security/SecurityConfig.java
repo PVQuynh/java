@@ -1,73 +1,72 @@
 package com.example.java.security;
 
-import org.keycloak.adapters.KeycloakConfigResolver;
-import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
-import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
-import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
-import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
-import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 import static com.example.java.model.Role.*;
-import static org.springframework.http.HttpMethod.GET;
+import static com.example.java.model.Role.ADMIN;
+import static org.springframework.http.HttpMethod.*;
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
-class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter
-{
-    /**
-     * Registers the KeycloakAuthenticationProvider with the authentication manager.
-     */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
-        auth.authenticationProvider(keycloakAuthenticationProvider);
-    }
+@RequiredArgsConstructor
+@EnableMethodSecurity(securedEnabled = true)
+public class SecurityConfig {
 
     @Bean
-    public KeycloakConfigResolver KeycloakConfigResolver() {
-        return new KeycloakSpringBootConfigResolver();
+    public JwtDecoder jwtDecoder() {
+        // Thay thế "your-jwk-set-url" bằng URL của JWK Set bạn nhận từ Keycloak
+        String jwkSetUri = "http://localhost:7080/realms/master/protocol/openid-connect/certs"; // Ví dụ URL
+        return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
 
-    /**
-     * Defines the session authentication strategy.
-     */
+    private static final String[] WHITE_LIST_URL = {
+            "/api/v1/auth/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-ui.html"};
+
     @Bean
-    @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
-        super.configure(http);
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .requestMatchers(GET, "/api/v1/user/**").hasAnyRole(ADMIN, MANAGER, USER)
+                .cors(withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers(WHITE_LIST_URL).permitAll()
+                        // user
+                        .requestMatchers(GET, "/api/v1/user/**").hasAnyRole(ADMIN, MANAGER, USER)
+                        .requestMatchers(POST, "/api/v1/user/**").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(PUT, "/api/v1/user/**").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(DELETE, "/api/v1/user/**").hasAnyRole(ADMIN, MANAGER)
+                        // manager
+                        .requestMatchers(GET, "/api/v1/management/**").hasAnyRole(ADMIN, MANAGER)
+                        .requestMatchers(POST, "/api/v1/management/**").hasAnyRole(ADMIN, MANAGER)
+                        .requestMatchers(PUT, "/api/v1/management/**").hasAnyRole(ADMIN, MANAGER)
+                        .requestMatchers(DELETE, "/api/v1/management/**").hasRole(ADMIN)
+                        // any
+                        .anyRequest()
+                        .authenticated()
+                )
+                .oauth2ResourceServer(auth -> auth.jwt(token -> token.jwtAuthenticationConverter(new KeycloakJwtAuthenticationConverter())));
 
-                .anyRequest().permitAll();
-    }
 
-    @Override
-    public void init(WebSecurity builder) throws Exception {
-
-    }
-
-    @Override
-    public void configure(WebSecurity builder) throws Exception {
-
+        return http.build();
     }
 }
