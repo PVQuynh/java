@@ -169,34 +169,6 @@
             <scope>test</scope> <!-- Chỉ sử dụng trong phạm vi kiểm thử -->
         </dependency>
 
-        <!-- JJWT API: Thư viện để tạo và xử lý JSON Web Tokens (JWT) -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>0.11.5</version>
-        </dependency>
-
-        <!-- JJWT Implementation: Cung cấp các lớp thực hiện cho JJWT API -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>0.11.5</version>
-        </dependency>
-
-        <!-- JJWT Jackson: Hỗ trợ cho việc tuần tự hóa và giải tuần tự hóa JWT với Jackson -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>0.11.5</version>
-        </dependency>
-
-        <!-- Keycloak Spring Boot Starter: Hỗ trợ tích hợp Keycloak với Spring Boot -->
-        <dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-spring-boot-starter</artifactId>
-            <version>16.1.0</version>
-        </dependency>
-
         <!-- Keycloak Admin Client: Thư viện cho phép tương tác với API quản lý Keycloak -->
         <dependency>
             <groupId>org.keycloak</groupId>

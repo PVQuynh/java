@@ -4,8 +4,6 @@ import com.example.java.config.KeycloakConfig;
 import com.example.java.payload.ChangePasswordRequest;
 import com.example.java.payload.RegisterRequest;
 import com.example.java.payload.RoleRequest;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
@@ -26,7 +24,6 @@ import org.springframework.util.ObjectUtils;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 

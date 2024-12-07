@@ -1,4 +1,4 @@
-package com.example.java.security;
+package com.example.java.service;
 
 import com.example.java.model.Role;
 import com.example.java.payload.RoleRequest;

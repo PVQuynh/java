@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static com.example.java.model.Role.*;
@@ -22,13 +20,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
-
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        // Thay thế "your-jwk-set-url" bằng URL của JWK Set bạn nhận từ Keycloak
-        String jwkSetUri = "http://localhost:7080/realms/master/protocol/openid-connect/certs"; // Ví dụ URL
-        return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
-    }
 
     private static final String[] WHITE_LIST_URL = {
             "/api/v1/auth/**",

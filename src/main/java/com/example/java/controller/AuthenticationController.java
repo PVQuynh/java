@@ -1,9 +1,8 @@
 package com.example.java.controller;
 
-import com.example.java.model.Role;
 import com.example.java.payload.*;
 import com.example.java.security.KeycloakService;
-import com.example.java.security.RoleService;
+import com.example.java.service.RoleService;
 import com.example.java.service.AuthenticationService;
 import com.example.java.service.LogoutService;
 import com.example.java.service.UserService;
